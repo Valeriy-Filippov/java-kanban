@@ -7,14 +7,14 @@ public class Epic extends Task {
 
     private final Set<SubTask> subTasks;
 
-    public Epic() {
-        this.subTasks = new HashSet<>();
+    public Epic(String name, String description) {
+        super(name, description, TaskStatus.NEW);
+        subTasks = new HashSet<>();
     }
 
-    @Override
-    public void setId(int id) {
-        super.setId(id);
-        subTasks.forEach(s -> s.setEpicId(id));
+    public Epic() {
+        setTaskStatus(TaskStatus.NEW);
+        subTasks = new HashSet<>();
     }
 
     public Set<SubTask> getSubTasks() {
@@ -31,7 +31,6 @@ public class Epic extends Task {
 
     public void addSubTask(SubTask subTask) {
         deleteSubTusk(subTask);
-        subTask.setEpicId(getId());
         subTasks.add(subTask);
     }
 }

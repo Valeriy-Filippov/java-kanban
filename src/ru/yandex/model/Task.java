@@ -9,8 +9,13 @@ public class Task {
     private String description;
     private TaskStatus taskStatus;
 
+    public Task(String name, String description, TaskStatus taskStatus) {
+        this.name = name;
+        this.description = description;
+        this.taskStatus = taskStatus;
+    }
+
     public Task() {
-        taskStatus = TaskStatus.NEW;
     }
 
     public int getId() {

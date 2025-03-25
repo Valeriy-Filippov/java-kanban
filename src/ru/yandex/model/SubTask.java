@@ -2,17 +2,15 @@ package ru.yandex.model;
 
 public class SubTask extends Task {
 
-    private int epicId;
+    private final int epicId;
 
-    public SubTask(Epic epic) {
-        epic.addSubTask(this);
+    public SubTask(String name, String description, TaskStatus taskStatus, int epicId) {
+        super(name, description, taskStatus);
+        this.epicId = epicId;
     }
 
     public int getEpicId() {
         return epicId;
     }
 
-    protected void setEpicId(int epicId) {
-        this.epicId = epicId;
-    }
 }
