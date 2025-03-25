@@ -2,21 +2,17 @@ package ru.yandex.model;
 
 public class SubTask extends Task {
 
-    private final Epic owner;
+    private int epicId;
 
-    public SubTask(int id, String name, String description, Epic owner) {
-        super(id, name, description);
-        this.owner = owner;
-        owner.getSubTasks().add(this);
+    public SubTask(Epic epic) {
+        epic.addSubTask(this);
     }
 
-    public SubTask(int id, String name, String description, TaskStatus taskStatus, Epic owner) {
-        super(id, name, description, taskStatus);
-        this.owner = owner;
+    public int getEpicId() {
+        return epicId;
     }
 
-    public Epic getOwner() {
-        return owner;
+    protected void setEpicId(int epicId) {
+        this.epicId = epicId;
     }
-
 }
