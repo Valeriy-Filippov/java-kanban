@@ -218,16 +218,11 @@ public class Test {
     }
 
     public static void testGetById() {
-        Task task1 = new Task();
+        Task task1 = new Task("Имя задачи 1", "Описание задачи 1", TaskStatus.NEW);
         task1.setId(1);
-        task1.setName("Имя задачи 1");
-        task1.setDescription("Описание задачи 1");
-        task1.setTaskStatus(TaskStatus.NEW);
 
-        Epic epic2 = new Epic();
+        Epic epic2 = new Epic("Имя эпика 2", "Описание эпика 2");
         epic2.setId(5);
-        epic2.setName("Имя эпика 2");
-        epic2.setDescription("Описание эпика 2");
 
         SubTask subTask4 = new SubTask("Имя подзадачи 4",
                 "Описание подзадачи 4",

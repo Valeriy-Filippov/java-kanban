@@ -15,9 +15,6 @@ public class Task {
         this.taskStatus = taskStatus;
     }
 
-    public Task() {
-    }
-
     public int getId() {
         return id;
     }

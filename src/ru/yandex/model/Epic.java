@@ -12,11 +12,6 @@ public class Epic extends Task {
         subTasks = new HashSet<>();
     }
 
-    public Epic() {
-        setTaskStatus(TaskStatus.NEW);
-        subTasks = new HashSet<>();
-    }
-
     public Set<SubTask> getSubTasks() {
         return subTasks;
     }
