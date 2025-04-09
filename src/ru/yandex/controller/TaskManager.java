@@ -38,4 +38,6 @@ public interface TaskManager {
     boolean deleteById(int id);
 
     Set<SubTask> getSubTaskByEpic(Epic epic);
+
+    List<Task> getHistory();
 }

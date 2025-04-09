@@ -159,6 +159,11 @@ public class InMemoryTaskManager implements TaskManager {
         return Collections.emptySet();
     }
 
+    @Override
+    public List<Task> getHistory() {
+        return historyManager.getHistory();
+    }
+
     private int nextId() {
         return counter++;
     }
