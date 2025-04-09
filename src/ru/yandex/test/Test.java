@@ -1,6 +1,6 @@
 package ru.yandex.test;
 
-import ru.yandex.controller.TaskManager;
+import ru.yandex.controller.InMemoryTaskManager;
 import ru.yandex.model.Epic;
 import ru.yandex.model.SubTask;
 import ru.yandex.model.Task;
@@ -14,7 +14,7 @@ import java.util.Set;
 import static java.lang.System.out;
 
 public class Test {
-    static TaskManager taskManager;
+    static InMemoryTaskManager inMemoryTaskManager;
 
     public static void main(String[] args) {
         testGetTask();
@@ -42,11 +42,11 @@ public class Test {
 
         out.println("Тестирование получение подзадач по эпику: ");
         out.println("\t сравнение подзадач эпика с id " + 4 + ": "
-                + colorForBoolean(subTasksEpic4.equals(taskManager.getSubTaskByEpic((Epic) taskManager.getTaskById(4)))));
+                + colorForBoolean(subTasksEpic4.equals(inMemoryTaskManager.getSubTaskByEpic((Epic) inMemoryTaskManager.getTaskById(4)))));
         out.println("\t сравнение подзадач эпика с id " + 5 + ": "
-                + colorForBoolean(subTasksEpic5.equals(taskManager.getSubTaskByEpic((Epic) taskManager.getTaskById(5)))));
+                + colorForBoolean(subTasksEpic5.equals(inMemoryTaskManager.getSubTaskByEpic((Epic) inMemoryTaskManager.getTaskById(5)))));
         out.println("\t сравнение подзадач эпика с id " + 6 + ": "
-                + colorForBoolean(subTasksEpic6.equals(taskManager.getSubTaskByEpic((Epic) taskManager.getTaskById(6)))));
+                + colorForBoolean(subTasksEpic6.equals(inMemoryTaskManager.getSubTaskByEpic((Epic) inMemoryTaskManager.getTaskById(6)))));
 
 
     }
@@ -70,7 +70,7 @@ public class Test {
 
         int i = 0;
         for (int id : idTasksDelete) {
-            boolean result = taskManager.deleteById(id);
+            boolean result = inMemoryTaskManager.deleteById(id);
             out.print("\tУдаление задачи с id " + id);
             out.print(" ,ожидание: " + resultDelete[i] + ", результат: " + result);
             out.println(" - " + colorForBoolean(result == resultDelete[i]));
@@ -78,11 +78,11 @@ public class Test {
         }
 
         out.println("Список Task ожидания равен результату: "
-                + colorForBoolean(tasks.equals(taskManager.getTaskList())));
+                + colorForBoolean(tasks.equals(inMemoryTaskManager.getTaskList())));
         out.println("Список Subtask ожидания равен результату: "
-                + colorForBoolean(subTasks.equals(taskManager.getSubTaskList())));
+                + colorForBoolean(subTasks.equals(inMemoryTaskManager.getSubTaskList())));
         out.println("Список Epic ожидания равен результату: "
-                + colorForBoolean(epics.equals(taskManager.getEpicList())));
+                + colorForBoolean(epics.equals(inMemoryTaskManager.getEpicList())));
 
 
         initialTaskManager();
@@ -95,23 +95,23 @@ public class Test {
         subTasks.get(3).setTaskStatus(TaskStatus.IN_PROGRESS);
         subTasks.get(4).setTaskStatus(TaskStatus.DONE);
 
-        taskManager.updateTask(subTasks.get(0));
-        taskManager.updateTask(subTasks.get(1));
-        taskManager.updateTask(subTasks.get(2));
-        taskManager.updateTask(subTasks.get(3));
-        taskManager.updateTask(subTasks.get(4));
+        inMemoryTaskManager.updateTask(subTasks.get(0));
+        inMemoryTaskManager.updateTask(subTasks.get(1));
+        inMemoryTaskManager.updateTask(subTasks.get(2));
+        inMemoryTaskManager.updateTask(subTasks.get(3));
+        inMemoryTaskManager.updateTask(subTasks.get(4));
 
-        Task checkEpic1 = taskManager.getTaskById(4);
-        Task checkEpic2 = taskManager.getTaskById(5);
+        Task checkEpic1 = inMemoryTaskManager.getTaskById(4);
+        Task checkEpic2 = inMemoryTaskManager.getTaskById(5);
 
         out.println("\t Статус задачи с Id " + 4 + " до удаления: "
                 + checkEpic1.getTaskStatus() + ", ожидание: " + TaskStatus.IN_PROGRESS);
         out.println("\t Статус задачи с Id " + 5 + " до удаления: "
                 + checkEpic2.getTaskStatus() + ", ожидание: " + TaskStatus.IN_PROGRESS);
 
-        taskManager.deleteById(8);
-        taskManager.deleteById(9);
-        taskManager.deleteById(10);
+        inMemoryTaskManager.deleteById(8);
+        inMemoryTaskManager.deleteById(9);
+        inMemoryTaskManager.deleteById(10);
 
         out.println("\t Статус задачи с Id " + 4 + " после удаления: "
                 + checkEpic1.getTaskStatus() + ", ожидание: "
@@ -134,13 +134,13 @@ public class Test {
         assert1.get(1).setTaskStatus(TaskStatus.DONE);
         assert1.get(2).setName("Новое имя для задачи 1");
 
-        taskManager.updateTask(assert1.get(0));
-        taskManager.updateTask(assert1.get(1));
-        taskManager.updateTask(assert1.get(2));
+        inMemoryTaskManager.updateTask(assert1.get(0));
+        inMemoryTaskManager.updateTask(assert1.get(1));
+        inMemoryTaskManager.updateTask(assert1.get(2));
 
         int taskId = 1;
         for (Task task : assert1) {
-            Task checkTask = taskManager.getTaskById(taskId);
+            Task checkTask = inMemoryTaskManager.getTaskById(taskId);
             out.println("\tРезультат сравнения задачи с id "
                     + taskId + ": "
                     + colorForBoolean(task.equals(checkTask)));
@@ -157,13 +157,13 @@ public class Test {
         assert2.get(2).setName("Новое имя эпика 3");
         assert2.get(2).setTaskStatus(TaskStatus.DONE);
 
-        taskManager.updateTask(assert2.get(0));
-        taskManager.updateTask(assert2.get(1));
-        taskManager.updateTask(assert2.get(2));
+        inMemoryTaskManager.updateTask(assert2.get(0));
+        inMemoryTaskManager.updateTask(assert2.get(1));
+        inMemoryTaskManager.updateTask(assert2.get(2));
 
         int epicId = 4;
         for (Epic task : assert2) {
-            Task checkTask = taskManager.getTaskById(epicId);
+            Task checkTask = inMemoryTaskManager.getTaskById(epicId);
             out.println("\tРезультат полного обновления задачи с id "
                     + epicId + ": "
                     + colorForBoolean(task.equals(checkTask)));
@@ -183,15 +183,15 @@ public class Test {
         assert3.get(3).setTaskStatus(TaskStatus.DONE);
         assert3.get(4).setTaskStatus(TaskStatus.DONE);
 
-        taskManager.updateTask(assert3.get(0));
-        taskManager.updateTask(assert3.get(1));
-        taskManager.updateTask(assert3.get(2));
-        taskManager.updateTask(assert3.get(3));
-        taskManager.updateTask(assert3.get(4));
+        inMemoryTaskManager.updateTask(assert3.get(0));
+        inMemoryTaskManager.updateTask(assert3.get(1));
+        inMemoryTaskManager.updateTask(assert3.get(2));
+        inMemoryTaskManager.updateTask(assert3.get(3));
+        inMemoryTaskManager.updateTask(assert3.get(4));
 
         int subTuskId = 7;
         for (SubTask task : assert3) {
-            Task checkTask = taskManager.getTaskById(subTuskId);
+            Task checkTask = inMemoryTaskManager.getTaskById(subTuskId);
             out.println("\tРезультат полного обновления задачи с id "
                     + subTuskId + ": "
                     + colorForBoolean(task.equals(checkTask)));
@@ -207,7 +207,7 @@ public class Test {
 
         int idTaskStatus = 0;
         out.println("Обновление статуса Epic по новому статусу SubTask: ");
-        for (Epic epic : taskManager.getEpicList()) {
+        for (Epic epic : inMemoryTaskManager.getEpicList()) {
             out.println("\tEpic c id: " + epic.getId());
             out.print("\tСтатус: " + epic.getTaskStatus() + ", Ожидание: " + assertTaskStatusEpics[idTaskStatus]);
             out.println(" - " + colorForBoolean(epic.getTaskStatus() == assertTaskStatusEpics[idTaskStatus]));
@@ -246,11 +246,11 @@ public class Test {
         int i = 0;
         for (int id : checkId) {
             if (Objects.isNull(assertTasks[i])) {
-                out.println("\t id " + id + ": " + colorForBoolean(Objects.isNull(taskManager.getTaskById(id))));
+                out.println("\t id " + id + ": " + colorForBoolean(Objects.isNull(inMemoryTaskManager.getTaskById(id))));
                 i++;
                 continue;
             }
-            out.println("\t id " + id + ": " + colorForBoolean(taskManager.getTaskById(id).equals(assertTasks[i])));
+            out.println("\t id " + id + ": " + colorForBoolean(inMemoryTaskManager.getTaskById(id).equals(assertTasks[i])));
             i++;
         }
 
@@ -263,30 +263,30 @@ public class Test {
         boolean isRemoveSubTask;
 
         initialTaskManager();
-        taskManager.deleteAllTask();
-        isRemoveTask = taskManager.getTaskList().isEmpty();
-        isRemoveEpic = taskManager.getEpicList().size() == 3;
-        isRemoveSubTask = taskManager.getSubTaskList().size() == 5;
+        inMemoryTaskManager.deleteAllTask();
+        isRemoveTask = inMemoryTaskManager.getTaskList().isEmpty();
+        isRemoveEpic = inMemoryTaskManager.getEpicList().size() == 3;
+        isRemoveSubTask = inMemoryTaskManager.getSubTaskList().size() == 5;
         out.println("\t Task: " + colorForBoolean(isRemoveTask && isRemoveSubTask && isRemoveEpic));
         out.println("\t\t Task пуст " + isRemoveTask);
         out.println("\t\t Epic не пуст " + isRemoveEpic);
         out.println("\t\t SubTask не пуст " + isRemoveSubTask);
 
         initialTaskManager();
-        taskManager.deleteAllEpic();
-        isRemoveTask = taskManager.getTaskList().size() == 3;
-        isRemoveEpic = taskManager.getEpicList().isEmpty();
-        isRemoveSubTask = taskManager.getSubTaskList().isEmpty();
+        inMemoryTaskManager.deleteAllEpic();
+        isRemoveTask = inMemoryTaskManager.getTaskList().size() == 3;
+        isRemoveEpic = inMemoryTaskManager.getEpicList().isEmpty();
+        isRemoveSubTask = inMemoryTaskManager.getSubTaskList().isEmpty();
         out.println("\t Epic: " + colorForBoolean(isRemoveTask && isRemoveSubTask && isRemoveEpic));
         out.println("\t\t Task не пуст " + isRemoveTask);
         out.println("\t\t Epic пуст " + isRemoveEpic);
         out.println("\t\t SubTask пуст " + isRemoveSubTask);
 
         initialTaskManager();
-        taskManager.deleteAllSubTask();
-        isRemoveTask = taskManager.getTaskList().size() == 3;
-        isRemoveEpic = taskManager.getEpicList().size() == 3;
-        isRemoveSubTask = taskManager.getSubTaskList().isEmpty();
+        inMemoryTaskManager.deleteAllSubTask();
+        isRemoveTask = inMemoryTaskManager.getTaskList().size() == 3;
+        isRemoveEpic = inMemoryTaskManager.getEpicList().size() == 3;
+        isRemoveSubTask = inMemoryTaskManager.getSubTaskList().isEmpty();
         out.println("\t SubTask: " + colorForBoolean(isRemoveTask && isRemoveSubTask && isRemoveEpic));
         out.println("\t\t Task не пуст " + isRemoveTask);
         out.println("\t\t Epic не пуст " + isRemoveEpic);
@@ -295,9 +295,9 @@ public class Test {
 
     public static void testGetTask() {
         initialTaskManager();
-        List<Task> tasks = taskManager.getTaskList();
-        List<Epic> epics = taskManager.getEpicList();
-        List<SubTask> subTasks = taskManager.getSubTaskList();
+        List<Task> tasks = inMemoryTaskManager.getTaskList();
+        List<Epic> epics = inMemoryTaskManager.getEpicList();
+        List<SubTask> subTasks = inMemoryTaskManager.getSubTaskList();
 
         List<Task> assert1 = initialTask();
         List<Epic> assert2 = initialEpic();
@@ -374,7 +374,7 @@ public class Test {
     }
 
     public static void initialTaskManager() {
-        taskManager = new TaskManager();
+        inMemoryTaskManager = new InMemoryTaskManager();
 
         Task task1 = new Task("Имя задачи 1", "Описание задачи 1", TaskStatus.NEW);
         Task task2 = new Task("Имя задачи 2", "Описание задачи 2", TaskStatus.NEW);
@@ -409,17 +409,17 @@ public class Test {
                 TaskStatus.NEW,
                 5);
 
-        taskManager.addTask(task1);
-        taskManager.addTask(task2);
-        taskManager.addTask(task3);
-        taskManager.addTask(epic1);
-        taskManager.addTask(epic2);
-        taskManager.addTask(epic3);
-        taskManager.addTask(subTask1);
-        taskManager.addTask(subTask2);
-        taskManager.addTask(subTask3);
-        taskManager.addTask(subTask4);
-        taskManager.addTask(subTask5);
+        inMemoryTaskManager.addTask(task1);
+        inMemoryTaskManager.addTask(task2);
+        inMemoryTaskManager.addTask(task3);
+        inMemoryTaskManager.addTask(epic1);
+        inMemoryTaskManager.addTask(epic2);
+        inMemoryTaskManager.addTask(epic3);
+        inMemoryTaskManager.addTask(subTask1);
+        inMemoryTaskManager.addTask(subTask2);
+        inMemoryTaskManager.addTask(subTask3);
+        inMemoryTaskManager.addTask(subTask4);
+        inMemoryTaskManager.addTask(subTask5);
     }
 
     private static String colorForBoolean(boolean b) {

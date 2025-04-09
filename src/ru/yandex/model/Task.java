@@ -15,13 +15,19 @@ public class Task {
         this.taskStatus = taskStatus;
     }
 
+    public Task(int id, String name, String description, TaskStatus taskStatus) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.taskStatus = taskStatus;
+    }
+
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
-
     }
 
     public String getName() {
@@ -50,16 +56,14 @@ public class Task {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null) return false;
         Task task = (Task) o;
-        return id == task.id
-                && Objects.equals(name, task.name)
-                && Objects.equals(description, task.description);
+        return this == task || id == task.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description);
+        return Objects.hash(id);
     }
 
     @Override
